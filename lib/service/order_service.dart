@@ -9,9 +9,7 @@ class OrderService {
   static Future<List<Order>> getOrders() async {
     // Fetch orders from the server
     Future.delayed(Duration(seconds: 2));
-    List<Order> listOrder =
-        Constants.orderJson.map((e) => Order.fromJson(e)).toList();
-    return listOrder;
+    return getOrderList;
   }
 
   static Future<Order> createOrder(Order order) async {
@@ -19,13 +17,15 @@ class OrderService {
     Future.delayed(Duration(seconds: 2));
     var uuid = Uuid();
     order.item = uuid.v4();
+    getOrderList.add(order);
     return order;
   }
 
   static Future<List<Order>> searchOrder(String name) async {
     Future.delayed(Duration(seconds: 2));
-    List<Order> listOrder =
-        Constants.orderJson.map((e) => Order.fromJson(e)).toList();
-    return listOrder.where((e) => e.itemName.contains(name)).toList();
+    return getOrderList.where((e) => e.itemName.contains(name)).toList();
   }
+
+  static List<Order> get getOrderList =>
+      Constants.orderJson.map((e) => Order.fromJson(e)).toList();
 }
